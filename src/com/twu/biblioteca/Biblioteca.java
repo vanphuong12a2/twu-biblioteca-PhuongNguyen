@@ -14,6 +14,16 @@ public class Biblioteca {
     }
 
     public void start() {
+        printWelcomeMessage();
+        printMainMenu();
+    }
+
+    private void printWelcomeMessage() {
         printStream.println(WELCOME_TO_BIBLIOTECA);
+    }
+
+    private void printMainMenu() {
+        printStream.println("List of options:");
+        printStream.println("1. List books");
     }
 }
