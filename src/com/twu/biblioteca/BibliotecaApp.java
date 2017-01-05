@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 public class BibliotecaApp {
 
     public static void main(String[] args) {
-        Biblioteca biblioteca = new Biblioteca(System.out, new BufferedReader(new InputStreamReader(System.in)));
+        Biblioteca biblioteca = new Biblioteca(new BookStore(), System.out, new BufferedReader(new InputStreamReader(System.in)));
         biblioteca.start();
     }
 }

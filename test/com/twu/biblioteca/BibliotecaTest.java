@@ -17,13 +17,15 @@ public class BibliotecaTest {
     private PrintStream printStream;
     private Biblioteca biblioteca;
     private BufferedReader bufferReader;
+    private BookStore bookStore;
 
     @Before
     public void setUp() throws Exception {
         printStream = mock(PrintStream.class);
         bufferReader = mock(BufferedReader.class);
+        bookStore = mock(BookStore.class);
         when(bufferReader.readLine()).thenReturn("q");
-        biblioteca = new Biblioteca(printStream, bufferReader);
+        biblioteca = new Biblioteca(bookStore, printStream, bufferReader);
     }
 
     @Test
@@ -95,5 +97,13 @@ public class BibliotecaTest {
         biblioteca.start();
         verify(printStream, times(3)).println("Please enter the option:");
         verify(printStream).println("Good bye!");
+    }
+
+    @Test
+    public void shouldListBooksWhenUserChoosesOptions1() throws Exception {
+        when(bufferReader.readLine()).thenReturn("1").thenReturn("q");
+        biblioteca.start();
+        verify(printStream).println("List of books:");
+        verify(bookStore).listAllBooks();
     }
 }

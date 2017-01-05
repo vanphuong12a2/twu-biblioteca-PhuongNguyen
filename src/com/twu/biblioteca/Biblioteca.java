@@ -3,6 +3,7 @@ package com.twu.biblioteca;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.List;
 
 /**
  * Created by phuong on 4/01/17.
@@ -11,10 +12,12 @@ public class Biblioteca {
     public static final String WELCOME_TO_BIBLIOTECA = "Welcome to Biblioteca!";
     private PrintStream printStream;
     private BufferedReader bufferReader;
+    private BookStore bookStore;
 
-    public Biblioteca(PrintStream printStream, BufferedReader bufferReader) {
+    public Biblioteca(BookStore bookStore, PrintStream printStream, BufferedReader bufferReader) {
         this.printStream = printStream;
         this.bufferReader = bufferReader;
+        this.bookStore = bookStore;
     }
 
     public void start() {
@@ -24,9 +27,20 @@ public class Biblioteca {
         while (!input.equals("q")) {
             if (!input.equals("1"))
                 printStream.println("Select a valid option!");
+            else listBooks();
             printMainMenu();
             input = readUserInput();
         }
+        stop();
+    }
+
+    private void listBooks() {
+        printStream.println("List of books:");
+        List<Book> books = bookStore.listAllBooks();
+        printStream.println(books);
+    }
+
+    private void stop() {
         printStream.println("Good bye!");
     }
 
