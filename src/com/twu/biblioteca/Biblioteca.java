@@ -20,8 +20,15 @@ public class Biblioteca {
     public void start() {
         printWelcomeMessage();
         printMainMenu();
-        if (readUserInput().equals("0"))
-            printStream.println("Select a valid option!");
+        String input = readUserInput();
+        while (!input.equals("q")) {
+            if (input.equals("0"))
+                printStream.println("Select a valid option!");
+            if (input.equals("1") || input.equals("0"))
+                printMainMenu();
+            input = readUserInput();
+        }
+        printStream.println("Good bye!");
     }
 
     private void printWelcomeMessage() {
@@ -31,10 +38,11 @@ public class Biblioteca {
     private void printMainMenu() {
         printStream.println("List of options:");
         printStream.println("1. List books");
+        printStream.println("Please enter the option:");
     }
 
     public String readUserInput() {
-        String option = "";
+        String option = null;
         try {
             option = bufferReader.readLine();
         } catch (IOException e) {
