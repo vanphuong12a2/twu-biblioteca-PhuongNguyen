@@ -37,6 +37,7 @@ public class BibliotecaTest {
         biblioteca.start();
         verify(printStream).println("List of options:");
         verify(printStream).println("1. List books");
+        verify(printStream).println("q. Quit");
         verify(printStream).println("Please enter the option:");
     }
 
@@ -60,7 +61,14 @@ public class BibliotecaTest {
     }
 
     @Test
-    public void shouldAllowReEnterWhenUserChoosesInvalidOption() throws Exception {
+    public void shouldPrintErrorMessageWhenUserChoosesAnotherInvalidOption() throws Exception {
+        when(bufferReader.readLine()).thenReturn("-1").thenReturn("q");
+        biblioteca.start();
+        verify(printStream).println("Select a valid option!");
+    }
+
+    @Test
+    public void shouldAllowReEnterWhenUserChoosesAnInvalidOption() throws Exception {
         when(bufferReader.readLine()).thenReturn("0").thenReturn("q");
         biblioteca.start();
         verify(printStream, times(2)).println("Please enter the option:");

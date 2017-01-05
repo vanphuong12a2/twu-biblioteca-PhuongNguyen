@@ -22,10 +22,9 @@ public class Biblioteca {
         printMainMenu();
         String input = readUserInput();
         while (!input.equals("q")) {
-            if (input.equals("0"))
+            if (!input.equals("1"))
                 printStream.println("Select a valid option!");
-            if (input.equals("1") || input.equals("0"))
-                printMainMenu();
+            printMainMenu();
             input = readUserInput();
         }
         printStream.println("Good bye!");
@@ -38,6 +37,7 @@ public class Biblioteca {
     private void printMainMenu() {
         printStream.println("List of options:");
         printStream.println("1. List books");
+        printStream.println("q. Quit");
         printStream.println("Please enter the option:");
     }
 
