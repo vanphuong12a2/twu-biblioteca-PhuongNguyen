@@ -9,6 +9,8 @@ public class BibliotecaApp {
 
     public static void main(String[] args) {
         List<Book> books = new ArrayList<Book>();
+        books.add(new Book("Head First Java", "Bert Bates and Kathy Sierra", "2003"));
+        books.add(new Book("TDD by Example", "Kent Beck", "2003", true));
         Biblioteca biblioteca = new Biblioteca(new BookStore(books), System.out, new BufferedReader(new InputStreamReader(System.in)));
         biblioteca.start();
     }

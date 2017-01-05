@@ -40,7 +40,7 @@ public class Biblioteca {
     }
 
     private void returnBook() {
-        printStream.println("Enter the book you want to return:");
+        printStream.print("Enter the book you want to return:");
         String title = readUserInput();
         if (!bookStore.returnByTitle(title))
             printStream.println("That is not a valid book to return.");
@@ -49,7 +49,7 @@ public class Biblioteca {
     }
 
     private void checkoutBook() {
-        printStream.println("Enter the book you want to checkout:");
+        printStream.print("Enter the book you want to checkout:");
         String title = readUserInput();
         if(!bookStore.checkoutByTitle(title))
             printStream.println("That book is not available.");
@@ -59,9 +59,12 @@ public class Biblioteca {
 
     private void listBooks() {
         printStream.println("List of books:");
+        printStream.println(String.format("%-30s %-30s %-4s %-9s", "Title", "Authors", "Year", "CheckedOut"));
+        printStream.println(String.format("%-30s %-30s %-4s %-9s", "-----", "-------", "----", "----------"));
         List<Book> books = bookStore.listAllBooks();
         for (Book book: books)
             printStream.println(book.getBookDetails());
+        printStream.println();
     }
 
     private void stop() {
@@ -75,8 +78,10 @@ public class Biblioteca {
     private void printMainMenu() {
         printStream.println("List of options:");
         printStream.println("1. List books");
+        printStream.println("2. Checkout book");
+        printStream.println("3. Return book");
         printStream.println("q. Quit");
-        printStream.println("Please enter the option:");
+        printStream.print("Please enter the option:");
     }
 
     public String readUserInput() {

@@ -40,8 +40,10 @@ public class BibliotecaTest {
         biblioteca.start();
         verify(printStream).println("List of options:");
         verify(printStream).println("1. List books");
+        verify(printStream).println("2. Checkout book");
+        verify(printStream).println("3. Return book");
         verify(printStream).println("q. Quit");
-        verify(printStream).println("Please enter the option:");
+        verify(printStream).print("Please enter the option:");
     }
 
     @Test
@@ -74,7 +76,7 @@ public class BibliotecaTest {
     public void shouldAllowReEnterWhenUserChoosesAnInvalidOption() throws Exception {
         when(bufferReader.readLine()).thenReturn("0").thenReturn("q");
         biblioteca.start();
-        verify(printStream, times(2)).println("Please enter the option:");
+        verify(printStream, times(2)).print("Please enter the option:");
     }
 
 
@@ -82,21 +84,21 @@ public class BibliotecaTest {
     public void shouldAllowReEnterWhenUserFinishesAnAction() throws Exception {
         when(bufferReader.readLine()).thenReturn("1").thenReturn("q");
         biblioteca.start();
-        verify(printStream, times(2)).println("Please enter the option:");
+        verify(printStream, times(2)).print("Please enter the option:");
     }
 
     @Test
     public void shouldAllowReEnterWhenUserFinishesTwoAction() throws Exception {
         when(bufferReader.readLine()).thenReturn("1").thenReturn("1").thenReturn("q");
         biblioteca.start();
-        verify(printStream, times(3)).println("Please enter the option:");
+        verify(printStream, times(3)).print("Please enter the option:");
     }
 
     @Test
     public void shouldStopWhenUserChoosesQuitOption() throws Exception {
         when(bufferReader.readLine()).thenReturn("1").thenReturn("1").thenReturn("q");
         biblioteca.start();
-        verify(printStream, times(3)).println("Please enter the option:");
+        verify(printStream, times(3)).print("Please enter the option:");
         verify(printStream).println("Good bye!");
     }
 
@@ -122,7 +124,7 @@ public class BibliotecaTest {
     public void shouldAskForTitleBookWhenUserChoosesOption2() throws Exception {
         when(bufferReader.readLine()).thenReturn("2").thenReturn("q");
         biblioteca.start();
-        verify(printStream).println("Enter the book you want to checkout:");
+        verify(printStream).print("Enter the book you want to checkout:");
     }
 
     @Test
@@ -145,7 +147,7 @@ public class BibliotecaTest {
     public void shouldAskForTitleWhenUserChoosesOption3() throws Exception {
         when(bufferReader.readLine()).thenReturn("3").thenReturn("q");
         biblioteca.start();
-        verify(printStream).println("Enter the book you want to return:");
+        verify(printStream).print("Enter the book you want to return:");
     }
 
     @Test

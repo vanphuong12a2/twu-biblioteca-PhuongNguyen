@@ -11,6 +11,6 @@ public class BookTest {
     @Test
     public void shouldGetBookDetailsWithFormat() throws Exception {
         String bookDetails = new Book("Head First Java", "Bert Bates and Kathy Sierra", "2003").getBookDetails();
-        assertEquals(bookDetails, "Head First Java                          Bert Bates and Kathy Sierra 2003");
+        assertEquals(bookDetails, "Head First Java                Bert Bates and Kathy Sierra    2003  ");
     }
 }

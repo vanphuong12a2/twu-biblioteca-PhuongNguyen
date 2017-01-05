@@ -22,7 +22,7 @@ public class Book {
     }
 
     public String getBookDetails() {
-        return String.format("%-40s %-26s %-4s", title, authors, publishedYear);
+        return String.format("%-30s %-30s %-4s %-1s", title, authors, publishedYear, checkedOut?"x":"");
     }
 
     public String getTitle() {
