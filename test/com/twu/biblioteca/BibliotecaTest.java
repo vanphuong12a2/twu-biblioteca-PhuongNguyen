@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import java.io.BufferedReader;
 import java.io.PrintStream;
+import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
@@ -105,5 +106,15 @@ public class BibliotecaTest {
         biblioteca.start();
         verify(printStream).println("List of books:");
         verify(bookStore).listAllBooks();
+    }
+
+    @Test
+    public void shouldPrintBookDetailsWhenListing() throws Exception {
+        when(bufferReader.readLine()).thenReturn("1").thenReturn("q");
+        Book book = mock(Book.class);
+        when(book.getBookDetails()).thenReturn("Book Details");
+        when(bookStore.listAllBooks()).thenReturn(Arrays.asList(book));
+        biblioteca.start();
+        verify(printStream).println("Book Details");
     }
 }

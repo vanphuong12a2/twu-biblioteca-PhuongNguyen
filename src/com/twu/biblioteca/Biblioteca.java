@@ -37,7 +37,8 @@ public class Biblioteca {
     private void listBooks() {
         printStream.println("List of books:");
         List<Book> books = bookStore.listAllBooks();
-        printStream.println(books);
+        for (Book book: books)
+            printStream.println(book.getBookDetails());
     }
 
     private void stop() {
