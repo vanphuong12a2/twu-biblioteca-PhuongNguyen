@@ -40,11 +40,10 @@ public class Biblioteca {
     private void checkoutBook() {
         printStream.println("Enter the book you want to checkout:");
         String title = readUserInput();
-        if(!bookStore.checkAvailableByTitle(title))
+        if(!bookStore.checkoutByTitle(title))
             printStream.println("That book is not available.");
         else {
             printStream.println("Thank you! Enjoy the book");
-            bookStore.checkoutByTitle(title);
         }
     }
 

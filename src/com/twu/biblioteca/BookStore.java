@@ -16,11 +16,13 @@ public class BookStore {
         return books;
     }
 
-    public boolean checkAvailableByTitle(String title) {
+    public boolean checkoutByTitle(String title) {
+        for (Book book: books) {
+            if (book.getTitle().equals(title) && !book.isCheckedOut()) {
+                books.remove(book);
+                return true;
+            }
+        }
         return false;
-    }
-
-    public void checkoutByTitle(String s) {
-
     }
 }

@@ -128,17 +128,16 @@ public class BibliotecaTest {
     @Test
     public void shouldPrintMessageWhenCheckOutAnUnavailableBook() throws Exception {
         when(bufferReader.readLine()).thenReturn("2").thenReturn("TDD by Example").thenReturn("q");
-        when(bookStore.checkAvailableByTitle("TDD by Example")).thenReturn(false);
+        when(bookStore.checkoutByTitle("TDD by Example")).thenReturn(false);
         biblioteca.start();
         verify(printStream).println("That book is not available.");
     }
 
     @Test
-    public void shouldCheckoutWhenCheckOutAnUnavailableBook() throws Exception {
+    public void shouldCheckoutWhenCheckOutAnAvailableBook() throws Exception {
         when(bufferReader.readLine()).thenReturn("2").thenReturn("TDD by Example").thenReturn("q");
-        when(bookStore.checkAvailableByTitle("TDD by Example")).thenReturn(true);
+        when(bookStore.checkoutByTitle("TDD by Example")).thenReturn(true);
         biblioteca.start();
         verify(printStream).println("Thank you! Enjoy the book");
-        verify(bookStore).checkoutByTitle("TDD by Example");
     }
 }
