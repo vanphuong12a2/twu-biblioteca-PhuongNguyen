@@ -5,7 +5,8 @@ import org.junit.Test;
 
 import java.io.BufferedReader;
 import java.io.PrintStream;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
@@ -15,18 +16,26 @@ import static org.mockito.Mockito.*;
  */
 public class BibliotecaTest {
 
+    private final ListBooksOption listBooksOption = mock(ListBooksOption.class);
+    private final CheckoutBookOption checkoutBookOption = mock(CheckoutBookOption.class);
+    private final ReturnBookOption returnBookOption = mock(ReturnBookOption.class);
     private PrintStream printStream;
     private Biblioteca biblioteca;
     private BufferedReader bufferReader;
     private BookStore bookStore;
+    private List<MenuOption> menuOptions = new ArrayList<MenuOption>();
+
 
     @Before
     public void setUp() throws Exception {
         printStream = mock(PrintStream.class);
         bufferReader = mock(BufferedReader.class);
         bookStore = mock(BookStore.class);
+        menuOptions.add(listBooksOption);
+        menuOptions.add(checkoutBookOption);
+        menuOptions.add(returnBookOption);
         when(bufferReader.readLine()).thenReturn("q");
-        biblioteca = new Biblioteca(bookStore, printStream, bufferReader);
+        biblioteca = new Biblioteca(bookStore, menuOptions, printStream, bufferReader);
     }
 
     @Test
@@ -37,6 +46,9 @@ public class BibliotecaTest {
 
     @Test
     public void shouldPrintMainMenuWhenStarting() throws Exception {
+        when(listBooksOption.getDescription()).thenReturn("List books");
+        when(checkoutBookOption.getDescription()).thenReturn("Checkout book");
+        when(returnBookOption.getDescription()).thenReturn("Return book");
         biblioteca.start();
         verify(printStream).println("List of options:");
         verify(printStream).println("1. List books");
@@ -103,66 +115,23 @@ public class BibliotecaTest {
     }
 
     @Test
-    public void shouldListBooksWhenUserChoosesOptions1() throws Exception {
+    public void shouldCallListsBookExecuteWhenUserChoosesOptions1() throws Exception {
         when(bufferReader.readLine()).thenReturn("1").thenReturn("q");
         biblioteca.start();
-        verify(printStream).println("List of books:");
-        verify(bookStore).listAllBooks();
+        verify(listBooksOption).execute(bookStore, printStream, bufferReader);
     }
 
     @Test
-    public void shouldPrintBookDetailsWhenListing() throws Exception {
-        when(bufferReader.readLine()).thenReturn("1").thenReturn("q");
-        Book book = mock(Book.class);
-        when(book.getBookDetails()).thenReturn("Book Details");
-        when(bookStore.listAllBooks()).thenReturn(Arrays.asList(book));
-        biblioteca.start();
-        verify(printStream).println("Book Details");
-    }
-
-    @Test
-    public void shouldAskForTitleBookWhenUserChoosesOption2() throws Exception {
+    public void shouldCallCheckoutBookExecuteWhenUserChoosesOption2() throws Exception {
         when(bufferReader.readLine()).thenReturn("2").thenReturn("q");
         biblioteca.start();
-        verify(printStream).print("Enter the book you want to checkout:");
+        verify(checkoutBookOption).execute(bookStore, printStream, bufferReader);
     }
 
     @Test
-    public void shouldPrintErrorMessageWhenCheckOutAnUnavailableBook() throws Exception {
-        when(bufferReader.readLine()).thenReturn("2").thenReturn("TDD by Example").thenReturn("q");
-        when(bookStore.checkoutByTitle("TDD by Example")).thenReturn(false);
-        biblioteca.start();
-        verify(printStream).println("That book is not available.");
-    }
-
-    @Test
-    public void shouldPrintThankYouMessageWhenCheckOutAnAvailableBook() throws Exception {
-        when(bufferReader.readLine()).thenReturn("2").thenReturn("TDD by Example").thenReturn("q");
-        when(bookStore.checkoutByTitle("TDD by Example")).thenReturn(true);
-        biblioteca.start();
-        verify(printStream).println("Thank you! Enjoy the book");
-    }
-
-    @Test
-    public void shouldAskForTitleWhenUserChoosesOption3() throws Exception {
+    public void shouldCallReturnBookOptionExecuteWhenUserChoosesOption3() throws Exception {
         when(bufferReader.readLine()).thenReturn("3").thenReturn("q");
         biblioteca.start();
-        verify(printStream).print("Enter the book you want to return:");
-    }
-
-    @Test
-    public void shouldPrintErrorMessageWhenReturnAnUnvalidBook() throws Exception {
-        when(bufferReader.readLine()).thenReturn("3").thenReturn("TDD by Example").thenReturn("q");
-        when(bookStore.returnByTitle("TDD by Example")).thenReturn(false);
-        biblioteca.start();
-        verify(printStream).println("That is not a valid book to return.");
-    }
-
-    @Test
-    public void shouldPrintThankYouWhenReturnAnValidBook() throws Exception {
-        when(bufferReader.readLine()).thenReturn("3").thenReturn("TDD by Example").thenReturn("q");
-        when(bookStore.returnByTitle("TDD by Example")).thenReturn(true);
-        biblioteca.start();
-        verify(printStream).println("Thank you for returning the book.");
+        verify(returnBookOption).execute(bookStore, printStream, bufferReader);
     }
 }
