@@ -15,4 +15,12 @@ public class BookStore {
     public List<Book> listAllBooks() {
         return books;
     }
+
+    public boolean checkAvailableByTitle(String title) {
+        return false;
+    }
+
+    public void checkoutByTitle(String s) {
+
+    }
 }

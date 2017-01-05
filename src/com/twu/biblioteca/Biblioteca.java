@@ -25,13 +25,27 @@ public class Biblioteca {
         printMainMenu();
         String input = readUserInput();
         while (!input.equals("q")) {
-            if (!input.equals("1"))
+            if (input.equals("1"))
+                listBooks();
+            else if (input.equals("2"))
+                checkoutBook();
+            else
                 printStream.println("Select a valid option!");
-            else listBooks();
             printMainMenu();
             input = readUserInput();
         }
         stop();
+    }
+
+    private void checkoutBook() {
+        printStream.println("Enter the book you want to checkout:");
+        String title = readUserInput();
+        if(!bookStore.checkAvailableByTitle(title))
+            printStream.println("That book is not available.");
+        else {
+            printStream.println("Thank you! Enjoy the book");
+            bookStore.checkoutByTitle(title);
+        }
     }
 
     private void listBooks() {
