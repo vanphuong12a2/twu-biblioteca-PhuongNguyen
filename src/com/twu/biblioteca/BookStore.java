@@ -19,7 +19,17 @@ public class BookStore {
     public boolean checkoutByTitle(String title) {
         for (Book book: books) {
             if (book.getTitle().equals(title) && !book.isCheckedOut()) {
-                books.remove(book);
+                book.setCheckedOut(true);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean returnByTitle(String title) {
+        for (Book book: books) {
+            if (book.getTitle().equals(title) && book.isCheckedOut()) {
+                book.setCheckedOut(false);
                 return true;
             }
         }

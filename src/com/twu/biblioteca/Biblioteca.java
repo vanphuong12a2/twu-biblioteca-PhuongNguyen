@@ -29,6 +29,8 @@ public class Biblioteca {
                 listBooks();
             else if (input.equals("2"))
                 checkoutBook();
+            else if (input.equals("3"))
+                returnBook();
             else
                 printStream.println("Select a valid option!");
             printMainMenu();
@@ -37,14 +39,22 @@ public class Biblioteca {
         stop();
     }
 
+    private void returnBook() {
+        printStream.println("Enter the book you want to return:");
+        String title = readUserInput();
+        if (!bookStore.returnByTitle(title))
+            printStream.println("That is not a valid book to return.");
+        else
+            printStream.println("Thank you for returning the book.");
+    }
+
     private void checkoutBook() {
         printStream.println("Enter the book you want to checkout:");
         String title = readUserInput();
         if(!bookStore.checkoutByTitle(title))
             printStream.println("That book is not available.");
-        else {
+        else
             printStream.println("Thank you! Enjoy the book");
-        }
     }
 
     private void listBooks() {

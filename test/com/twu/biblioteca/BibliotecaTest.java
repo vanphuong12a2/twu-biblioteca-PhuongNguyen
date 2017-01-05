@@ -119,14 +119,14 @@ public class BibliotecaTest {
     }
 
     @Test
-    public void shouldCheckOutBookWhenUserChoosesOption2() throws Exception {
+    public void shouldAskForTitleBookWhenUserChoosesOption2() throws Exception {
         when(bufferReader.readLine()).thenReturn("2").thenReturn("q");
         biblioteca.start();
         verify(printStream).println("Enter the book you want to checkout:");
     }
 
     @Test
-    public void shouldPrintMessageWhenCheckOutAnUnavailableBook() throws Exception {
+    public void shouldPrintErrorMessageWhenCheckOutAnUnavailableBook() throws Exception {
         when(bufferReader.readLine()).thenReturn("2").thenReturn("TDD by Example").thenReturn("q");
         when(bookStore.checkoutByTitle("TDD by Example")).thenReturn(false);
         biblioteca.start();
@@ -134,10 +134,33 @@ public class BibliotecaTest {
     }
 
     @Test
-    public void shouldCheckoutWhenCheckOutAnAvailableBook() throws Exception {
+    public void shouldPrintThankYouMessageWhenCheckOutAnAvailableBook() throws Exception {
         when(bufferReader.readLine()).thenReturn("2").thenReturn("TDD by Example").thenReturn("q");
         when(bookStore.checkoutByTitle("TDD by Example")).thenReturn(true);
         biblioteca.start();
         verify(printStream).println("Thank you! Enjoy the book");
+    }
+
+    @Test
+    public void shouldAskForTitleWhenUserChoosesOption3() throws Exception {
+        when(bufferReader.readLine()).thenReturn("3").thenReturn("q");
+        biblioteca.start();
+        verify(printStream).println("Enter the book you want to return:");
+    }
+
+    @Test
+    public void shouldPrintErrorMessageWhenReturnAnUnvalidBook() throws Exception {
+        when(bufferReader.readLine()).thenReturn("3").thenReturn("TDD by Example").thenReturn("q");
+        when(bookStore.returnByTitle("TDD by Example")).thenReturn(false);
+        biblioteca.start();
+        verify(printStream).println("That is not a valid book to return.");
+    }
+
+    @Test
+    public void shouldPrintThankYouWhenReturnAnValidBook() throws Exception {
+        when(bufferReader.readLine()).thenReturn("3").thenReturn("TDD by Example").thenReturn("q");
+        when(bookStore.returnByTitle("TDD by Example")).thenReturn(true);
+        biblioteca.start();
+        verify(printStream).println("Thank you for returning the book.");
     }
 }
