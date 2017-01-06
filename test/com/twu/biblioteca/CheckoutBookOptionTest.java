@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.io.BufferedReader;
 import java.io.PrintStream;
 
+import static java.util.Collections.EMPTY_LIST;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -18,12 +19,14 @@ public class CheckoutBookOptionTest {
     private PrintStream printStream;
     private BookStore bookStore;
     private CheckoutBookOption checkoutBookOption;
+    private Biblioteca biblioteca;
 
     @Before
     public void setUp() throws Exception {
         printStream = mock(PrintStream.class);
         bufferReader = mock(BufferedReader.class);
         bookStore = mock(BookStore.class);
+        biblioteca = new Biblioteca(bookStore, mock(MovieStore.class), EMPTY_LIST, printStream, bufferReader);
         checkoutBookOption = new CheckoutBookOption("Checkout Book");
     }
 
@@ -31,7 +34,7 @@ public class CheckoutBookOptionTest {
     public void shouldPrintErrorMessageWhenCheckOutAnUnavailableBook() throws Exception {
         when(bufferReader.readLine()).thenReturn("TDD by Example").thenReturn("q");
         when(bookStore.checkoutByTitle("TDD by Example")).thenReturn(false);
-        checkoutBookOption.execute(bookStore, printStream, bufferReader);
+        checkoutBookOption.execute(biblioteca);
         verify(printStream).println("That book is not available.");
     }
 
@@ -39,8 +42,7 @@ public class CheckoutBookOptionTest {
     public void shouldPrintThankYouMessageWhenCheckOutAnAvailableBook() throws Exception {
         when(bufferReader.readLine()).thenReturn("TDD by Example").thenReturn("q");
         when(bookStore.checkoutByTitle("TDD by Example")).thenReturn(true);
-        checkoutBookOption.execute(bookStore, printStream, bufferReader);
+        checkoutBookOption.execute(biblioteca);
         verify(printStream).println("Thank you! Enjoy the book");
     }
-
 }

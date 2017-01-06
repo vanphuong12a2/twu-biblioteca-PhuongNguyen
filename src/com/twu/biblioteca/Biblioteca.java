@@ -9,15 +9,17 @@ import java.util.List;
  */
 public class Biblioteca {
     public static final String WELCOME_TO_BIBLIOTECA = "Welcome to Biblioteca!";
+    private MovieStore movieStore;
     private PrintStream printStream;
     private BufferedReader bufferReader;
     private BookStore bookStore;
     private List<MenuOption> menuOptions;
 
-    public Biblioteca(BookStore bookStore, List<MenuOption> menuOptions, PrintStream printStream, BufferedReader bufferReader) {
+    public Biblioteca(BookStore bookStore, MovieStore movieStore, List<MenuOption> menuOptions, PrintStream printStream, BufferedReader bufferReader) {
         this.printStream = printStream;
         this.bufferReader = bufferReader;
         this.bookStore = bookStore;
+        this.movieStore = movieStore;
         this.menuOptions = menuOptions;
     }
 
@@ -28,7 +30,7 @@ public class Biblioteca {
         while (!input.equals("q")) {
             Integer optionPosition = Integer.parseInt(input) - 1;
             if (optionPosition >= 0 && optionPosition < menuOptions.size())
-                menuOptions.get(optionPosition).execute(bookStore, printStream, bufferReader);
+                menuOptions.get(optionPosition).execute(this);
             else
                 printStream.println("Select a valid option!");
             printMainMenu();
@@ -56,5 +58,21 @@ public class Biblioteca {
 
     public String readUserInput() {
         return new InputReader(bufferReader).readUserInput();
+    }
+
+    public BookStore getBookStore() {
+        return bookStore;
+    }
+
+    public MovieStore getMovieStore() {
+        return movieStore;
+    }
+
+    public PrintStream getPrintStream() {
+        return printStream;
+    }
+
+    public BufferedReader getBufferReader() {
+        return bufferReader;
     }
 }

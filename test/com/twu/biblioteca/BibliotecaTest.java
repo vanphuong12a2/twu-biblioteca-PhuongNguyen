@@ -19,23 +19,24 @@ public class BibliotecaTest {
     private final ListBooksOption listBooksOption = mock(ListBooksOption.class);
     private final CheckoutBookOption checkoutBookOption = mock(CheckoutBookOption.class);
     private final ReturnBookOption returnBookOption = mock(ReturnBookOption.class);
+    private final ListMoviesOption listMoviesOption = mock(ListMoviesOption.class);
     private PrintStream printStream;
     private Biblioteca biblioteca;
     private BufferedReader bufferReader;
-    private BookStore bookStore;
     private List<MenuOption> menuOptions = new ArrayList<MenuOption>();
+
 
 
     @Before
     public void setUp() throws Exception {
         printStream = mock(PrintStream.class);
         bufferReader = mock(BufferedReader.class);
-        bookStore = mock(BookStore.class);
         menuOptions.add(listBooksOption);
         menuOptions.add(checkoutBookOption);
         menuOptions.add(returnBookOption);
+        menuOptions.add(listMoviesOption);
         when(bufferReader.readLine()).thenReturn("q");
-        biblioteca = new Biblioteca(bookStore, menuOptions, printStream, bufferReader);
+        biblioteca = new Biblioteca(mock(BookStore.class), mock(MovieStore.class), menuOptions, printStream, bufferReader);
     }
 
     @Test
@@ -49,11 +50,13 @@ public class BibliotecaTest {
         when(listBooksOption.getDescription()).thenReturn("List books");
         when(checkoutBookOption.getDescription()).thenReturn("Checkout book");
         when(returnBookOption.getDescription()).thenReturn("Return book");
+        when(listMoviesOption.getDescription()).thenReturn("List movies");
         biblioteca.start();
         verify(printStream).println("List of options:");
         verify(printStream).println("1. List books");
         verify(printStream).println("2. Checkout book");
         verify(printStream).println("3. Return book");
+        verify(printStream).println("4. List movies");
         verify(printStream).println("q. Quit");
         verify(printStream).print("Please enter the option:");
     }
@@ -118,20 +121,27 @@ public class BibliotecaTest {
     public void shouldCallListsBookExecuteWhenUserChoosesOptions1() throws Exception {
         when(bufferReader.readLine()).thenReturn("1").thenReturn("q");
         biblioteca.start();
-        verify(listBooksOption).execute(bookStore, printStream, bufferReader);
+        verify(listBooksOption).execute(biblioteca);
     }
 
     @Test
     public void shouldCallCheckoutBookExecuteWhenUserChoosesOption2() throws Exception {
         when(bufferReader.readLine()).thenReturn("2").thenReturn("q");
         biblioteca.start();
-        verify(checkoutBookOption).execute(bookStore, printStream, bufferReader);
+        verify(checkoutBookOption).execute(biblioteca);
     }
 
     @Test
     public void shouldCallReturnBookOptionExecuteWhenUserChoosesOption3() throws Exception {
         when(bufferReader.readLine()).thenReturn("3").thenReturn("q");
         biblioteca.start();
-        verify(returnBookOption).execute(bookStore, printStream, bufferReader);
+        verify(returnBookOption).execute(biblioteca);
+    }
+
+    @Test
+    public void shouldCallListMoviesOptionExecuteWhenUserChoosesOption4() throws Exception {
+        when(bufferReader.readLine()).thenReturn("4").thenReturn("q");
+        biblioteca.start();
+        verify(listMoviesOption).execute(biblioteca);
     }
 }

@@ -1,8 +1,5 @@
 package com.twu.biblioteca;
 
-import java.io.BufferedReader;
-import java.io.PrintStream;
-
 /**
  * Created by phuong on 5/01/17.
  */
@@ -13,7 +10,7 @@ public class MenuOption {
         this.description = description;
     }
 
-    public void execute(BookStore bookStore, PrintStream printStream, BufferedReader bufferReader){}
+    public void execute(Biblioteca biblioteca){}
 
     public String getDescription() {
         return description;

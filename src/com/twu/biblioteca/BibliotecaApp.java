@@ -10,7 +10,8 @@ public class BibliotecaApp {
     public static void main(String[] args) {
         List<Book> books = getBooks();
         List<MenuOption> menuOptions = getStringMenuOptionHashMap();
-        Biblioteca biblioteca = new Biblioteca(new BookStore(books), menuOptions, System.out, new BufferedReader(new InputStreamReader(System.in)));
+        List<Movie> movies = getMovies();
+        Biblioteca biblioteca = new Biblioteca(new BookStore(books), new MovieStore(movies), menuOptions, System.out, new BufferedReader(new InputStreamReader(System.in)));
         biblioteca.start();
     }
 
@@ -27,5 +28,11 @@ public class BibliotecaApp {
         books.add(new Book("Head First Java", "Bert Bates and Kathy Sierra", "2003"));
         books.add(new Book("TDD by Example", "Kent Beck", "2003", true));
         return books;
+    }
+
+    public static List<Movie> getMovies() {
+        List<Movie> movies = new ArrayList<Movie>();
+        movies.add(new Movie("Titanic", "2017", "Director?", 10));
+        return movies;
     }
 }

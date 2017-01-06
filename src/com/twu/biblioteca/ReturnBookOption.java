@@ -13,7 +13,10 @@ public class ReturnBookOption extends MenuOption {
     }
 
     @Override
-    public void execute(BookStore bookStore, PrintStream printStream, BufferedReader bufferReader) {
+    public void execute(Biblioteca biblioteca) {
+        BookStore bookStore = biblioteca.getBookStore();
+        PrintStream printStream = biblioteca.getPrintStream();
+        BufferedReader bufferReader = biblioteca.getBufferReader();
         printStream.print("Enter the book you want to return:");
         String title = new InputReader(bufferReader).readUserInput();
         if (!bookStore.returnByTitle(title))
