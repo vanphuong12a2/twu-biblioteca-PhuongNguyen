@@ -9,16 +9,18 @@ public class Book {
     private final String authors;
     private final String publishedYear;
     private boolean checkedOut;
+    private User user;
 
-    public Book(String title, String authors, String publishedYear, Boolean checkedOut) {
+    public Book(String title, String authors, String publishedYear, Boolean checkedOut, User user) {
         this.title = title;
         this.authors = authors;
         this.publishedYear = publishedYear;
         this.checkedOut = checkedOut;
+        this.user = user;
     }
 
     public Book(String title, String authors, String publishedYear) {
-        this(title, authors, publishedYear, false);
+        this(title, authors, publishedYear, false, null);
     }
 
     public String getBookDetails() {
@@ -35,5 +37,9 @@ public class Book {
 
     public void setCheckedOut(boolean checkedOut) {
         this.checkedOut = checkedOut;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

@@ -8,6 +8,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 /**
@@ -47,4 +48,8 @@ public class ReturnBookOptionTest {
         verify(printStream).println("Thank you for returning the book.");
     }
 
+    @Test
+    public void shouldRequireLogin() throws Exception {
+        assertTrue(returnBookOption.requireLogin());
+    }
 }

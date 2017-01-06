@@ -15,4 +15,8 @@ public class MenuOption {
     public String getDescription() {
         return description;
     }
+
+    public boolean requireLogin() {
+        return false;
+    }
 }

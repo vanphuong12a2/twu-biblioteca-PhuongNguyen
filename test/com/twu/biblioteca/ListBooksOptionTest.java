@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static junit.framework.TestCase.assertFalse;
 import static org.mockito.Mockito.*;
 
 /**
@@ -45,5 +46,10 @@ public class ListBooksOptionTest {
         when(bookStore.listAllBooks()).thenReturn(Collections.singletonList(book));
         listBooksOption.execute(biblioteca);
         verify(printStream).println("Book Details");
+    }
+
+    @Test
+    public void shouldNotRequireLogin() throws Exception {
+        assertFalse(listBooksOption.requireLogin());
     }
 }

@@ -22,11 +22,11 @@ public class BibliotecaTest {
     private final ListMoviesOption listMoviesOption = mock(ListMoviesOption.class);
     private final CheckoutMovieOption checkoutMovieOption = mock(CheckoutMovieOption.class);
     private final LoginOption loginOption = mock(LoginOption.class);
+    private final DisplayUserInfoOption displayUserInfoOption = mock(DisplayUserInfoOption.class);
     private PrintStream printStream;
     private Biblioteca biblioteca;
     private BufferedReader bufferReader;
     private List<MenuOption> menuOptions = new ArrayList<MenuOption>();
-
 
     @Before
     public void setUp() throws Exception {
@@ -38,6 +38,7 @@ public class BibliotecaTest {
         menuOptions.add(listMoviesOption);
         menuOptions.add(checkoutMovieOption);
         menuOptions.add(loginOption);
+        menuOptions.add(displayUserInfoOption);
         when(bufferReader.readLine()).thenReturn("q");
         biblioteca = new Biblioteca(mock(BookStore.class), mock(MovieStore.class), mock(UserStore.class), menuOptions, printStream, bufferReader);
     }
@@ -160,5 +161,39 @@ public class BibliotecaTest {
         when(bufferReader.readLine()).thenReturn("6").thenReturn("q");
         biblioteca.start();
         verify(loginOption).execute(biblioteca);
+    }
+
+    @Test
+    public void shouldCallDisplayUserInformationOptionExecuteWhenUserChoosesOption7() throws Exception {
+        when(bufferReader.readLine()).thenReturn("7").thenReturn("q");
+        biblioteca.start();
+        verify(displayUserInfoOption).execute(biblioteca);
+    }
+
+    @Test
+    public void shouldPrintErrorMessageWhenCheckoutBookWithoutLogin() throws Exception {
+        when(bufferReader.readLine()).thenReturn("2").thenReturn("q");
+        biblioteca.setCurrentUser(null);
+        when(checkoutBookOption.requireLogin()).thenReturn(true);
+        biblioteca.start();
+        verify(printStream).println("Please login to perform this action!");
+    }
+
+    @Test
+    public void shouldExecuteWhenCheckoutBookWithLogin() throws Exception {
+        when(bufferReader.readLine()).thenReturn("2").thenReturn("q");
+        biblioteca.setCurrentUser(mock(User.class));
+        when(checkoutBookOption.requireLogin()).thenReturn(true);
+        biblioteca.start();
+        verify(checkoutBookOption).execute(biblioteca);
+    }
+
+    @Test
+    public void shouldExecuteWhenCheckoutBookNotRequireLogin() throws Exception {
+        when(bufferReader.readLine()).thenReturn("2").thenReturn("q");
+        biblioteca.setCurrentUser(null);
+        when(checkoutBookOption.requireLogin()).thenReturn(false);
+        biblioteca.start();
+        verify(checkoutBookOption).execute(biblioteca);
     }
 }

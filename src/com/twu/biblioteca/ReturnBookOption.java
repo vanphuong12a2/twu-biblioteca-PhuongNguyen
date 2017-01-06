@@ -12,6 +12,11 @@ public class ReturnBookOption extends MenuOption {
     }
 
     @Override
+    public boolean requireLogin() {
+        return true;
+    }
+
+    @Override
     public void execute(Biblioteca biblioteca) {
         BookStore bookStore = biblioteca.getBookStore();
         PrintStream printStream = biblioteca.getPrintStream();

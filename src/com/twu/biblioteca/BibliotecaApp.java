@@ -23,13 +23,15 @@ public class BibliotecaApp {
         menuOptions.add(new ReturnBookOption("Return book"));
         menuOptions.add(new ListMoviesOption("List movies"));
         menuOptions.add(new CheckoutMovieOption("Checkout movie"));
+        menuOptions.add(new LoginOption("Login"));
+        menuOptions.add(new DisplayUserInfoOption("User Information"));
         return menuOptions;
     }
 
     public static BookStore getBookStore() {
         List<Book> books = new ArrayList<Book>();
         books.add(new Book("Head First Java", "Bert Bates and Kathy Sierra", "2003"));
-        books.add(new Book("TDD by Example", "Kent Beck", "2003", true));
+        books.add(new Book("TDD by Example", "Kent Beck", "2003", true, null));
         return new BookStore(books);
     }
 
@@ -41,6 +43,7 @@ public class BibliotecaApp {
 
     public static UserStore getUserStore() {
         List<User> users = new ArrayList<User>();
+        users.add(new User("111-1111", "123456", "Ally Miles", "ally@gmail.com", "Barcelona, Spain"));
         return new UserStore(users);
     }
 }

@@ -8,6 +8,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
@@ -57,5 +58,10 @@ public class LoginOptionTest {
         when(userStore.getUserByNameAndCheckPassword("111-1111", "123456")).thenReturn(null);
         loginOption.execute(biblioteca);
         verify(printStream).println("Wrong library number or password!");
+    }
+
+    @Test
+    public void shouldNotRequireLogin() throws Exception {
+        assertFalse(loginOption.requireLogin());
     }
 }

@@ -32,8 +32,13 @@ public class Biblioteca {
         String input = readUserInput();
         while (!input.equals("q")) {
             Integer optionPosition = Integer.parseInt(input) - 1;
-            if (optionPosition >= 0 && optionPosition < menuOptions.size())
-                menuOptions.get(optionPosition).execute(this);
+            if (optionPosition >= 0 && optionPosition < menuOptions.size()) {
+                MenuOption menuOption = menuOptions.get(optionPosition);
+                if (menuOption.requireLogin() && currentUser == null)
+                    printStream.println("Please login to perform this action!");
+                else
+                    menuOptions.get(optionPosition).execute(this);
+            }
             else
                 printStream.println("Select a valid option!");
             printMainMenu();

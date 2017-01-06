@@ -16,10 +16,11 @@ public class BookStore {
         return books;
     }
 
-    public boolean checkoutByTitle(String title) {
+    public boolean checkoutByTitle(String title, User user) {
         for (Book book: books) {
             if (book.getTitle().equals(title) && !book.isCheckedOut()) {
                 book.setCheckedOut(true);
+                book.setUser(user);
                 return true;
             }
         }
@@ -30,6 +31,7 @@ public class BookStore {
         for (Book book: books) {
             if (book.getTitle().equals(title) && book.isCheckedOut()) {
                 book.setCheckedOut(false);
+                book.setUser(null);
                 return true;
             }
         }

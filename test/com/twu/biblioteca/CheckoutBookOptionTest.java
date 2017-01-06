@@ -8,6 +8,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 /**
@@ -20,6 +21,7 @@ public class CheckoutBookOptionTest {
     private BookStore bookStore;
     private CheckoutBookOption checkoutBookOption;
     private Biblioteca biblioteca;
+    private User user;
 
     @Before
     public void setUp() throws Exception {
@@ -28,12 +30,13 @@ public class CheckoutBookOptionTest {
         bookStore = mock(BookStore.class);
         biblioteca = new Biblioteca(bookStore, mock(MovieStore.class), mock(UserStore.class), EMPTY_MENU, printStream, bufferReader);
         checkoutBookOption = new CheckoutBookOption("Checkout Book");
+        user = mock(User.class);
     }
 
     @Test
     public void shouldPrintErrorMessageWhenCheckOutAnUnavailableBook() throws Exception {
         when(bufferReader.readLine()).thenReturn("TDD by Example").thenReturn("q");
-        when(bookStore.checkoutByTitle("TDD by Example")).thenReturn(false);
+        when(bookStore.checkoutByTitle("TDD by Example", user)).thenReturn(false);
         checkoutBookOption.execute(biblioteca);
         verify(printStream).println("That book is not available.");
     }
@@ -41,8 +44,22 @@ public class CheckoutBookOptionTest {
     @Test
     public void shouldPrintThankYouMessageWhenCheckOutAnAvailableBook() throws Exception {
         when(bufferReader.readLine()).thenReturn("TDD by Example").thenReturn("q");
-        when(bookStore.checkoutByTitle("TDD by Example")).thenReturn(true);
+        biblioteca.setCurrentUser(user);
+        when(bookStore.checkoutByTitle("TDD by Example", user)).thenReturn(true);
         checkoutBookOption.execute(biblioteca);
         verify(printStream).println("Thank you! Enjoy the book");
+    }
+
+    @Test
+    public void shouldRequireLogin() throws Exception {
+        assertTrue(checkoutBookOption.requireLogin());
+    }
+
+    @Test
+    public void shouldStoreWhoCheckoutTheBook() throws Exception {
+        when(bufferReader.readLine()).thenReturn("TDD by Example").thenReturn("q");
+        biblioteca.setCurrentUser(user);
+        checkoutBookOption.execute(biblioteca);
+        verify(bookStore).checkoutByTitle("TDD by Example", user);
     }
 }
