@@ -10,17 +10,20 @@ import java.util.List;
 public class Biblioteca {
     public static final String WELCOME_TO_BIBLIOTECA = "Welcome to Biblioteca!";
     private MovieStore movieStore;
+    private UserStore userStore;
     private PrintStream printStream;
-    private BufferedReader bufferReader;
     private BookStore bookStore;
     private List<MenuOption> menuOptions;
+    private InputReader inputReader;
+    private User currentUser = null;
 
-    public Biblioteca(BookStore bookStore, MovieStore movieStore, List<MenuOption> menuOptions, PrintStream printStream, BufferedReader bufferReader) {
+    public Biblioteca(BookStore bookStore, MovieStore movieStore, UserStore userStore, List<MenuOption> menuOptions, PrintStream printStream, BufferedReader bufferReader) {
         this.printStream = printStream;
-        this.bufferReader = bufferReader;
         this.bookStore = bookStore;
         this.movieStore = movieStore;
+        this.userStore = userStore;
         this.menuOptions = menuOptions;
+        this.inputReader = new InputReader(bufferReader);
     }
 
     public void start() {
@@ -56,9 +59,7 @@ public class Biblioteca {
         printStream.print("Please enter the option:");
     }
 
-    public String readUserInput() {
-        return new InputReader(bufferReader).readUserInput();
-    }
+    public String readUserInput() { return inputReader.readUserInput(); }
 
     public BookStore getBookStore() {
         return bookStore;
@@ -72,7 +73,15 @@ public class Biblioteca {
         return printStream;
     }
 
-    public BufferedReader getBufferReader() {
-        return bufferReader;
+    public UserStore getUserStore() {
+        return userStore;
+    }
+
+    public void setCurrentUser(User currentUser) {
+        this.currentUser = currentUser;
+    }
+
+    public User getCurrentUser() {
+        return currentUser;
     }
 }

@@ -5,17 +5,17 @@ import org.junit.Test;
 
 import java.io.BufferedReader;
 import java.io.PrintStream;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-import static java.util.Collections.EMPTY_LIST;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 /**
  * Created by phuong on 5/01/17.
  */
 public class ListBooksOptionTest {
+    private static final List<MenuOption> EMPTY_MENU = new ArrayList<MenuOption>();
     private BufferedReader bufferReader;
     private PrintStream printStream;
     private BookStore bookStore;
@@ -27,13 +27,13 @@ public class ListBooksOptionTest {
         printStream = mock(PrintStream.class);
         bufferReader = mock(BufferedReader.class);
         bookStore = mock(BookStore.class);
-        biblioteca = new Biblioteca(bookStore, mock(MovieStore.class), EMPTY_LIST, printStream, bufferReader);
+        biblioteca = new Biblioteca(bookStore, mock(MovieStore.class), mock(UserStore.class), EMPTY_MENU, printStream, bufferReader);
         listBooksOption = new ListBooksOption("List books");
     }
 
     @Test
     public void shouldPrintMessageWhenThereIsNoBook() throws Exception {
-        when(bookStore.listAllBooks()).thenReturn(EMPTY_LIST);
+        when(bookStore.listAllBooks()).thenReturn(new ArrayList<Book>());
         listBooksOption.execute(biblioteca);
         verify(printStream).println("Sorry, there is no book!");
     }
@@ -42,7 +42,7 @@ public class ListBooksOptionTest {
     public void shouldPrintBookDetailsWhenListing() throws Exception {
         Book book = mock(Book.class);
         when(book.getBookDetails()).thenReturn("Book Details");
-        when(bookStore.listAllBooks()).thenReturn(Arrays.asList(book));
+        when(bookStore.listAllBooks()).thenReturn(Collections.singletonList(book));
         listBooksOption.execute(biblioteca);
         verify(printStream).println("Book Details");
     }

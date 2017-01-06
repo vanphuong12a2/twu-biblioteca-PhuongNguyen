@@ -5,16 +5,16 @@ import org.junit.Test;
 
 import java.io.BufferedReader;
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
 
-import static java.util.Collections.EMPTY_LIST;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 /**
  * Created by phuong on 6/01/17.
  */
 public class CheckoutMovieOptionTest {
+    private static final List<MenuOption> EMPTY_MENU = new ArrayList<MenuOption>();
     private BufferedReader bufferReader;
     private PrintStream printStream;
     private MovieStore movieStore;
@@ -26,7 +26,7 @@ public class CheckoutMovieOptionTest {
         printStream = mock(PrintStream.class);
         bufferReader = mock(BufferedReader.class);
         movieStore = mock(MovieStore.class);
-        biblioteca = new Biblioteca(mock(BookStore.class), movieStore, EMPTY_LIST, printStream, bufferReader);
+        biblioteca = new Biblioteca(mock(BookStore.class), movieStore, mock(UserStore.class), EMPTY_MENU, printStream, bufferReader);
         checkoutMovieOption = new CheckoutMovieOption("Checkout Movie");
     }
 

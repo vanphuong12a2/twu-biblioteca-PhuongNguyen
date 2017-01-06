@@ -5,15 +5,17 @@ import org.junit.Test;
 
 import java.io.BufferedReader;
 import java.io.PrintStream;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-import static java.util.Collections.EMPTY_LIST;
 import static org.mockito.Mockito.*;
 
 /**
  * Created by phuong on 6/01/17.
  */
 public class ListMoviesOptionTest {
+    private static final List<MenuOption> EMPTY_MENU = new ArrayList<MenuOption>();
     private BufferedReader bufferReader;
     private PrintStream printStream;
     private MovieStore movieStore;
@@ -25,13 +27,13 @@ public class ListMoviesOptionTest {
         printStream = mock(PrintStream.class);
         bufferReader = mock(BufferedReader.class);
         movieStore = mock(MovieStore.class);
-        biblioteca = new Biblioteca(mock(BookStore.class), movieStore, EMPTY_LIST, printStream, bufferReader);
+        biblioteca = new Biblioteca(mock(BookStore.class), movieStore, mock(UserStore.class), EMPTY_MENU, printStream, bufferReader);
         listMoviesOption = new ListMoviesOption("List movies");
     }
 
     @Test
     public void shouldPrintMessageWhenThereIsNoMovie() throws Exception {
-        when(movieStore.listAllMovies()).thenReturn(EMPTY_LIST);
+        when(movieStore.listAllMovies()).thenReturn(new ArrayList<Movie>());
         listMoviesOption.execute(biblioteca);
         verify(printStream).println("Sorry, there is no movie!");
     }
@@ -40,7 +42,7 @@ public class ListMoviesOptionTest {
     public void shouldPrintMovieDetailsWhenListing() throws Exception {
         Movie movie = mock(Movie.class);
         when(movie.getMovieDetails()).thenReturn("Movie Details");
-        when(movieStore.listAllMovies()).thenReturn(Arrays.asList(movie));
+        when(movieStore.listAllMovies()).thenReturn(Collections.singletonList(movie));
         listMoviesOption.execute(biblioteca);
         verify(printStream).println("Movie Details");
     }

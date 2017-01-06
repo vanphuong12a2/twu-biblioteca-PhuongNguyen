@@ -1,6 +1,5 @@
 package com.twu.biblioteca;
 
-import java.io.BufferedReader;
 import java.io.PrintStream;
 
 /**
@@ -16,9 +15,8 @@ public class ReturnBookOption extends MenuOption {
     public void execute(Biblioteca biblioteca) {
         BookStore bookStore = biblioteca.getBookStore();
         PrintStream printStream = biblioteca.getPrintStream();
-        BufferedReader bufferReader = biblioteca.getBufferReader();
         printStream.print("Enter the book you want to return:");
-        String title = new InputReader(bufferReader).readUserInput();
+        String title = biblioteca.readUserInput();
         if (!bookStore.returnByTitle(title))
             printStream.println("That is not a valid book to return.");
         else

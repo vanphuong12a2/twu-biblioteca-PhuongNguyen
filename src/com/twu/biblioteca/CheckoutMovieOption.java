@@ -1,6 +1,5 @@
 package com.twu.biblioteca;
 
-import java.io.BufferedReader;
 import java.io.PrintStream;
 
 /**
@@ -15,9 +14,8 @@ public class CheckoutMovieOption extends MenuOption {
     public void execute(Biblioteca biblioteca) {
         MovieStore movieStore = biblioteca.getMovieStore();
         PrintStream printStream = biblioteca.getPrintStream();
-        BufferedReader bufferReader = biblioteca.getBufferReader();
         printStream.print("Enter the movie you want to checkout:");
-        String title = new InputReader(bufferReader).readUserInput();
+        String title = biblioteca.readUserInput();
         if(!movieStore.checkoutByTitle(title))
             printStream.println("That movie is not available.");
         else

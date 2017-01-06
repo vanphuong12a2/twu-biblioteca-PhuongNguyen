@@ -5,17 +5,17 @@ import org.junit.Test;
 
 import java.io.BufferedReader;
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
 
-import static java.util.Collections.EMPTY_LIST;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 /**
  * Created by phuong on 5/01/17.
  */
 public class ReturnBookOptionTest {
 
+    private static final List<MenuOption> EMPTY_MENU = new ArrayList<MenuOption>();
     private BufferedReader bufferReader;
     private BookStore bookStore;
     private PrintStream printStream;
@@ -27,7 +27,7 @@ public class ReturnBookOptionTest {
         printStream = mock(PrintStream.class);
         bufferReader = mock(BufferedReader.class);
         bookStore = mock(BookStore.class);
-        biblioteca = new Biblioteca(bookStore, mock(MovieStore.class), EMPTY_LIST, printStream, bufferReader);
+        biblioteca = new Biblioteca(bookStore, mock(MovieStore.class), mock(UserStore.class), EMPTY_MENU, printStream, bufferReader);
         returnBookOption = new ReturnBookOption("Return Book");
     }
 

@@ -21,11 +21,11 @@ public class BibliotecaTest {
     private final ReturnBookOption returnBookOption = mock(ReturnBookOption.class);
     private final ListMoviesOption listMoviesOption = mock(ListMoviesOption.class);
     private final CheckoutMovieOption checkoutMovieOption = mock(CheckoutMovieOption.class);
+    private final LoginOption loginOption = mock(LoginOption.class);
     private PrintStream printStream;
     private Biblioteca biblioteca;
     private BufferedReader bufferReader;
     private List<MenuOption> menuOptions = new ArrayList<MenuOption>();
-
 
 
     @Before
@@ -37,8 +37,9 @@ public class BibliotecaTest {
         menuOptions.add(returnBookOption);
         menuOptions.add(listMoviesOption);
         menuOptions.add(checkoutMovieOption);
+        menuOptions.add(loginOption);
         when(bufferReader.readLine()).thenReturn("q");
-        biblioteca = new Biblioteca(mock(BookStore.class), mock(MovieStore.class), menuOptions, printStream, bufferReader);
+        biblioteca = new Biblioteca(mock(BookStore.class), mock(MovieStore.class), mock(UserStore.class), menuOptions, printStream, bufferReader);
     }
 
     @Test
@@ -152,5 +153,12 @@ public class BibliotecaTest {
         when(bufferReader.readLine()).thenReturn("5").thenReturn("q");
         biblioteca.start();
         verify(checkoutMovieOption).execute(biblioteca);
+    }
+
+    @Test
+    public void shouldCallLoginExecuteWhenUserChoosesOption6() throws Exception {
+        when(bufferReader.readLine()).thenReturn("6").thenReturn("q");
+        biblioteca.start();
+        verify(loginOption).execute(biblioteca);
     }
 }
