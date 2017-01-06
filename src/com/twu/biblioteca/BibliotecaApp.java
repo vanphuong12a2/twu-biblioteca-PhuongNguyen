@@ -20,6 +20,8 @@ public class BibliotecaApp {
         menuOptions.add(new ListBooksOption("List books"));
         menuOptions.add(new CheckoutBookOption("Checkout book"));
         menuOptions.add(new ReturnBookOption("Return book"));
+        menuOptions.add(new ListMoviesOption("List movies"));
+        menuOptions.add(new CheckoutMovieOption("Checkout movie"));
         return menuOptions;
     }
 

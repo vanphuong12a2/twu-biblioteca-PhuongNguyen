@@ -25,4 +25,16 @@ public class Movie {
     public String getMovieDetails() {
         return String.format("%-30s %-4s %-30s %-6s %-1s", name, year, director, rating, checkedOut?"x":"");
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public boolean isCheckedOut() {
+        return checkedOut;
+    }
+
+    public void setCheckedOut(boolean checkedOut) {
+        this.checkedOut = checkedOut;
+    }
 }

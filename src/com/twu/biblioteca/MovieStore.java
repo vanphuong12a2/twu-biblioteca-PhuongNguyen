@@ -16,4 +16,14 @@ public class MovieStore {
     public List<Movie> listAllMovies() {
         return movies;
     }
+
+    public boolean checkoutByTitle(String title) {
+        for (Movie movie: movies) {
+            if (movie.getName().equals(title) && !movie.isCheckedOut()) {
+                movie.setCheckedOut(true);
+                return true;
+            }
+        }
+        return false;
+    }
 }

@@ -20,6 +20,7 @@ public class BibliotecaTest {
     private final CheckoutBookOption checkoutBookOption = mock(CheckoutBookOption.class);
     private final ReturnBookOption returnBookOption = mock(ReturnBookOption.class);
     private final ListMoviesOption listMoviesOption = mock(ListMoviesOption.class);
+    private final CheckoutMovieOption checkoutMovieOption = mock(CheckoutMovieOption.class);
     private PrintStream printStream;
     private Biblioteca biblioteca;
     private BufferedReader bufferReader;
@@ -35,6 +36,7 @@ public class BibliotecaTest {
         menuOptions.add(checkoutBookOption);
         menuOptions.add(returnBookOption);
         menuOptions.add(listMoviesOption);
+        menuOptions.add(checkoutMovieOption);
         when(bufferReader.readLine()).thenReturn("q");
         biblioteca = new Biblioteca(mock(BookStore.class), mock(MovieStore.class), menuOptions, printStream, bufferReader);
     }
@@ -143,5 +145,12 @@ public class BibliotecaTest {
         when(bufferReader.readLine()).thenReturn("4").thenReturn("q");
         biblioteca.start();
         verify(listMoviesOption).execute(biblioteca);
+    }
+
+    @Test
+    public void shouldCallCheckoutMovieExecuteWhenUserChoosesOption5() throws Exception {
+        when(bufferReader.readLine()).thenReturn("5").thenReturn("q");
+        biblioteca.start();
+        verify(checkoutMovieOption).execute(biblioteca);
     }
 }
