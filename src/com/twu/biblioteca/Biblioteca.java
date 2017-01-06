@@ -81,7 +81,5 @@ public class Biblioteca {
         this.currentUser = currentUser;
     }
 
-    public User getCurrentUser() {
-        return currentUser;
-    }
+    public User getCurrentUser() { return currentUser; }
 }

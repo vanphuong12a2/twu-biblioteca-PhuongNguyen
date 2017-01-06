@@ -14,6 +14,10 @@ public class UserStore {
     }
 
     public User getUserByNameAndCheckPassword(String libraryNumber, String password) {
+        for (User user: users) {
+            if (user.checkNameAndPassword(libraryNumber, password))
+                return user;
+        }
         return null;
     }
 }
